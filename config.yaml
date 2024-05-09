@@ -1,3 +1,34 @@
+rosewater: &rosewater "#f5e0dc"
+
+flamingo: &flamingo "#f2cdcd"
+pink: &pink "#f5c2e7"
+mauve: &mauve "#cba6f7"
+red: &red "#f38ba8"
+maroon: &maroon "#eba0ac"
+peach: &peach "#fab387"
+yellow: &yellow "#f9e2af"
+green: &green "#a6e3a1"
+teal: &teal "#94e2d5"
+sky: &sky "#89dceb"
+sapphire: &sapphire "#74c7ec"
+blue: &blue "#89b4fa"
+lavender: &lavender "#b4befe"
+text: &text "#cdd6f4"
+
+subtext1: &subtext1 "#bac2de"
+subtext0: &subtext0 "#a6adc8"
+overlay2: &overlay2 "#9399b2"
+overlay1: &overlay1 "#7f849c"
+overlay0: &overlay0 "#6c7086"
+surface2: &surface2 "#585b70"
+surface1: &surface1 "#45475a"
+surface0: &surface0 "#313244"
+
+base: &base "#1e1e2e"
+mantle: &mantle "#181825"
+crust: &crust "#11111b"
+crust_tp: &crust_tp "#11111bcc"
+
 general:
   # Whether to automatically focus windows underneath the cursor.
   focus_follows_cursor: false
@@ -24,72 +55,123 @@ general:
   window_animations: "unchanged"
 
 gaps:
+
   # Gap between adjacent windows.
-  inner_gap: "2px"
+  inner_gap: "2"
 
   # Gap between windows and the screen edge.
-  outer_gap: "2px"
+  outer_gap: "1"
 
 # Highlight active/inactive windows with a colored border.
 # ** Exclusive to Windows 11 due to API limitations.
+
 focus_borders:
   active:
+
     enabled: true
     color: "#0000ff"
 
+
   inactive:
     enabled: false
+
     color: "#ff0000"
 
 bar:
-  height: "30px"
+  height: "28px"
   position: "top"
   opacity: 1.0
-  background: "#20242cc4"
-  foreground: "#ffffff"
-  font_family: "Segoe UI"
+  background: *crust_tp
+  foreground: *blue
+  font_family: "JetBrainsMono Nerd Font"
   font_size: "13px"
   padding: "4px 6px"
   offset_x: "0"
   offset_y: "0"
   border_radius: "0"
+  component_separator:
+    label: "  "
   components_left:
+    #- type: "tiling direction"
+    #  label_horizontal: "⮂"
+    #  label_vertical: "⮁"
+    #  background: *crust_tp
+    #  margin: "0 4px"
+    #  padding: "0 8px"
     - type: "workspaces"
-      focused_workspace_background: "#ffffff33"
-      displayed_workspace_background: "#00000033"
+      focused_workspace_background: *blue
+      focused_workspace_foreground: *crust
+
+      displayed_workspace_background: *surface0
       default_workspace_background: "transparent"
+    - type: "music"
+
+      label_not_playing: " --  --"
+      label_paused: " {song_title} - {artist_name}"
+      label_playing: "  {song_title} - {artist_name}"
+
+      max_title_length: 30
+      max_artist_length: 20
+    - type: "volume"
+      label_low: " {volume_level}%"
+      label_medium: " {volume_level}%"
+      label_high: " {volume_level}%"
+      label_mute: " {volume_level}%"
   components_center:
     - type: "window title"
   components_right:
     - type: "system tray"
-    - type: "tiling direction"
-      label_horizontal: "⮂"
-      label_vertical: "⮁"
-      background: "#ffffff33"
-      margin: "0 4px"
-      padding: "0 8px"
-    - type: "binding mode"
-      background: "#ffffff33"
-      margin: "0 4px 0 0"
-      padding: "0 8px"
+    # - type: "system tray"
+    #- type: "network"
+    #  label_no_internet: "NC"
+    #  label_ethernet: "Eth"
+    #  label_wifi_strength0: "WiFi: 0%"
+    #  label_wifi_strength25: "WiFi: 25%"
+    #  label_wifi_strength50: "WiFi: 50%"
+    #  label_wifi_strength75: "WiFi: 75%"
+    #  label_wifi_strength100: "WiFi: 100%"    
     - type: "clock"
       # Documentation on formatting date/time string:
+
       # https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings
-      time_formatting: "hh:mm tt  ddd MMM d"
+      # time_formatting: "hh:mm tt  ddd MMM d"
+      time_formatting: "yyyy-dd-mm HH:mm"
 
 workspaces:
   - name: "1"
+    # display_name: "󰋞"
+    display_name: "home"
+    keep_alive: true
   - name: "2"
+    # display_name: "" # centered, small
+    # display_name: ""
+    display_name: "web"
+
   - name: "3"
+    # display_name: ""
+    # display_name: ""
+    # display_name: ""
+
+    display_name: "comms"
+
   - name: "4"
+    # display_name: "󰂺"
+    # display_name: ""
   - name: "5"
+    # display_name: ""
   - name: "6"
+    # display_name: ""
   - name: "7"
+    # display_name: ""
+
   - name: "8"
+    # display_name: ""
   - name: "9"
+    # display_name: ""
 
 window_rules:
   # Task Manager requires admin privileges to manage and should be ignored unless running
+
   # the WM as admin.
   - command: "ignore"
     match_process_name: "/Taskmgr|ScreenClippingHost/"
@@ -108,7 +190,21 @@ window_rules:
   - command: "resize borders 0px -7px -7px -7px"
     match_process_name: "steam"
 
+  - command: "ignore"
+
+    match_process_name: "eso64|DaggerfallUnity|valheim|OpenMW|openmw|openmw.exe"
+
+
+  - command: "move to workspace 2"
+
+    match_process_name: "firefox|thorium"
+
+  - command: "move to workspace 3"
+    match_process_name: "Discord|mailspring|slack"
+
+
 binding_modes:
+
   - name: "resize"
     keybindings:
       # Resize focused window by a percentage or pixel amount.
@@ -127,11 +223,13 @@ binding_modes:
 keybindings:
   - command: "exec 'C:\\Program Files\\Thorium\\Application\\thorium.exe'"
     bindings: ["Alt+B"]
+
   - command: "exec wt"
     bindings: ["Alt+X"]
   - command: "exec explorer"
     bindings: ["Alt+E"]
   - command: "exec '%LOCALAPPDATA%\\Programs\\cursor\\Cursor.exe'"
+
     bindings: ["Alt+W"]
   # Shift focus in a given direction.
   - command: "focus left"
@@ -153,8 +251,10 @@ keybindings:
   - command: "move down"
     bindings: ["Alt+Shift+J", "Alt+Shift+Down"]
 
+
   # Resize focused window by a percentage or pixel amount.
   - command: "resize width -2%"
+
     binding: "Alt+U"
   - command: "resize width +2%"
     binding: "Alt+P"
@@ -176,6 +276,7 @@ keybindings:
   - command: "focus mode toggle"
     binding: "Alt+Space"
 
+
   # Change the focused window to be floating / tiling.
   - command: "toggle floating"
     binding: "Alt+Shift+Space"
@@ -184,11 +285,13 @@ keybindings:
   - command: "toggle maximized"
     binding: "Alt+X"
 
+
   # Minimize focused window.
   - command: "set minimized"
     binding: "Alt+M"
 
   # Close focused window.
+
   - command: "close"
     binding: "Alt+Q"
 
@@ -196,9 +299,11 @@ keybindings:
   - command: "exit wm"
     binding: "Alt+Shift+E"
 
+
   # Re-evaluate configuration file.
   - command: "reload config"
     binding: "Alt+Shift+R"
+
 
   # Launch CMD terminal (alternatively `exec wt` or `exec %ProgramFiles%/Git/git-bash.exe`
   # to start Windows Terminal and Git Bash respectively.
@@ -231,6 +336,7 @@ keybindings:
   - command: "focus workspace 7"
     binding: "Alt+7"
   - command: "focus workspace 8"
+
     binding: "Alt+8"
   - command: "focus workspace 9"
     binding: "Alt+9"
@@ -245,22 +351,29 @@ keybindings:
   - command: "move workspace down"
     binding: "Alt+S"
 
+
   # Move focused window to a workspace defined in `workspaces` config.
+
   - commands: ["move to workspace 1", "focus workspace 1"]
     binding: "Alt+Shift+1"
   - commands: ["move to workspace 2", "focus workspace 2"]
     binding: "Alt+Shift+2"
   - commands: ["move to workspace 3", "focus workspace 3"]
+
     binding: "Alt+Shift+3"
   - commands: ["move to workspace 4", "focus workspace 4"]
     binding: "Alt+Shift+4"
+
   - commands: ["move to workspace 5", "focus workspace 5"]
     binding: "Alt+Shift+5"
   - commands: ["move to workspace 6", "focus workspace 6"]
     binding: "Alt+Shift+6"
   - commands: ["move to workspace 7", "focus workspace 7"]
+
     binding: "Alt+Shift+7"
   - commands: ["move to workspace 8", "focus workspace 8"]
     binding: "Alt+Shift+8"
+
   - commands: ["move to workspace 9", "focus workspace 9"]
     bindings: ["Alt+Shift+9"]
+
