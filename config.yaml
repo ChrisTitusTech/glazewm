@@ -135,7 +135,7 @@ bar:
 
       # https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings
       # time_formatting: "hh:mm tt  ddd MMM d"
-      time_formatting: "yyyy-dd-mm HH:mm"
+      time_formatting: "yyyy-dd-MM HH:mm"
 
 workspaces:
   - name: "1"
